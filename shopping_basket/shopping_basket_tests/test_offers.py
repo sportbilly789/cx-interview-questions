@@ -1,4 +1,5 @@
-# Import the code to be tested
+"""Test for the offers functionalities"""
+
 import offer_calculator
 import unittest  # Test Framework
 
@@ -28,24 +29,33 @@ offers_dict = {
 class Test_offers(unittest.TestCase):
     def test_discounts(self):  #
         basket = ["Shampoo (Large)", "Shampoo (Large)"]
-        offer = offer_calculator.Offer_Calculator()
-        offer.calculate_offers(offers_dict, basket, catalogue)
+        offer = offer_calculator.Offer_Calculator(
+            catalogue=catalogue, offers=offers_dict
+        )
+        offer.set_basket(basket=basket)
+        offer.calculate_offers()
         discount = offer.get_overall_discount()
         self.assertEqual(discount, 1.40)
 
     def test_Multidiscounts(self):  #
         basket = ["Shampoo (Large)", "Shampoo (Large)", "Baked Beans", "Yogurt"]
-        offer = offer_calculator.Offer_Calculator()
-        offer.calculate_offers(offers_dict, basket, catalogue)
+        offer = offer_calculator.Offer_Calculator(
+            catalogue=catalogue, offers=offers_dict
+        )
+        offer.set_basket(basket=basket)
+        offer.calculate_offers()
         discount = offer.get_overall_discount()
         self.assertEqual(discount, 2.15)
 
     def test_multifree(self):
         basket = ["Yogurt", "Yogurt", "Yogurt"]
-        offer = offer_calculator.Offer_Calculator()
-        offer.calculate_offers(offers_dict, basket, catalogue)
+        offer = offer_calculator.Offer_Calculator(
+            catalogue=catalogue, offers=offers_dict
+        )
+        offer.set_basket(basket=basket)
+        offer.calculate_offers()
         discount = offer.get_overall_discount()
-        self.assertEqual(discount, 3.60)
+        self.assertEqual(discount, 3.00)
 
     def test_combinations_discount__free(self):
 
@@ -56,10 +66,13 @@ class Test_offers(unittest.TestCase):
             "Yogurt",
         ]
 
-        offer = offer_calculator.Offer_Calculator()
-        offer.calculate_offers(offers_dict, basket, catalogue)
+        offer = offer_calculator.Offer_Calculator(
+            catalogue=catalogue, offers=offers_dict
+        )
+        offer.set_basket(basket=basket)
+        offer.calculate_offers()
         discount = offer.get_overall_discount()
-        self.assertEqual(discount, 4.30)
+        self.assertEqual(discount, 3.7)
 
     def test_M_for_price_of_N(self):  # Check the basket total before discounts
 
@@ -73,8 +86,11 @@ class Test_offers(unittest.TestCase):
             "Shampoo (Medium)",
             "Shampoo (Medium)",
         ]
-        offer = offer_calculator.Offer_Calculator()
-        offer.calculate_offers(offers_dict, basket, catalogue)
+        offer = offer_calculator.Offer_Calculator(
+            catalogue=catalogue, offers=offers_dict
+        )
+        offer.set_basket(basket=basket)
+        offer.calculate_offers()
         discount = offer.get_overall_discount()
         self.assertEqual(discount, 5.00)
 
